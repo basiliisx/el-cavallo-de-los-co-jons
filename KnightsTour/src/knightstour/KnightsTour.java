@@ -13,12 +13,11 @@ public class KnightsTour {
 
     Tauler t;
     Cavall c;
-    int dim;
     int sol = 1;
 
     public void generarTauler(int n) {
         t = new Tauler(n);
-        dim = n;
+        t.dim = n;
     }
 
     public void situarCavall(int x, int y) {
@@ -28,18 +27,20 @@ public class KnightsTour {
 
     public void backtracking(Cavall c) {
         sol++;
-        if (sol == dim * dim + 1) {
+        if (sol == t.dim * t.dim + 1) {
             return;
         }
         Cavall aux = new Cavall(c.getPos().getX(), c.getPos().getY());
         for (int i = 0; i < 8; i++) {
-            if (isValid(Vector.sumVector(c.getPos(), Cavall.getMov()[i]))) {
+            if (t.isValid(Vector.sumVector(c.getPos(), Cavall.getMov()[i]))) {
                 aux.setPos(Vector.sumVector(c.getPos(), Cavall.getMov()[i]));
                 t.setM(sol, aux.getPos().getX(), aux.getPos().getY());
+                if(t.hasSol(Cavall.getMov())){ 
                 backtracking(aux);
+                }
             }
         }
-        if(sol != dim*dim +1){
+        if(sol != t.dim*t.dim +1){
             sol--;
             t.setM(0, c.getPos().getX(), c.getPos().getY());
         }
@@ -52,8 +53,8 @@ public class KnightsTour {
     }
 
     public void printSol(){
-        for (int i = 0; i < dim; i++) {
-            for (int j = 0; j < dim; j++) {
+        for (int i = 0; i < t.dim; i++) {
+            for (int j = 0; j < t.dim; j++) {
                 System.out.print(t.getM(j, i));
                 System.out.print(' ');
             }
@@ -61,20 +62,14 @@ public class KnightsTour {
         }
     }
     
-    public boolean isValid(Vector v) {
-        if (v.getX() >= 0 && v.getY() >= 0 && v.getX() < dim && v.getY() < dim) {
-            return t.getM(v.getX(), v.getY()) == 0;
-        } else {
-            return false;
-        }
-    }
+
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         KnightsTour k = new KnightsTour();
-        k.kt(10, 0, 0);
+        k.kt(9, 0, 0);
         k.printSol();
     }
 
