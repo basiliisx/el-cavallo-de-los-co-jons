@@ -13,7 +13,8 @@ public class KnightsTour {
 
     Tauler t;
     Cavall c;
-    int sol = 1;
+    int dim;
+    int idx = 1;
 
     public void generarTauler(int n) {
         t = new Tauler(n);
@@ -22,37 +23,39 @@ public class KnightsTour {
 
     public void situarCavall(int x, int y) {
         c = new Cavall(x, y);
-        t.setM(sol, x, y);
+        t.setM(idx, x, y);
     }
 
-    public void backtracking(Cavall c) {
-        sol++;
-        if (sol == t.dim * t.dim + 1) {
-            return;
-        }
+    public boolean backtracking(Cavall c) {
+        idx++;
         Cavall aux = new Cavall(c.getPos().getX(), c.getPos().getY());
-        for (int i = 0; i < 8; i++) {
-            if (t.isValid(Vector.sumVector(c.getPos(), Cavall.getMov()[i]))) {
-                aux.setPos(Vector.sumVector(c.getPos(), Cavall.getMov()[i]));
-                t.setM(sol, aux.getPos().getX(), aux.getPos().getY());
-                if(t.hasSol(Cavall.getMov())){ 
-                backtracking(aux);
+        for (Vector mov : Cavall.getMov()) {
+            if (t.isValid(Vector.sumVector(c.getPos(), mov))) {
+                aux.setPos(Vector.sumVector(c.getPos(), mov));
+                if (t.hasSol(aux)) {
+                    t.setM(idx, aux.getPos().getX(), aux.getPos().getY());
+                    //System.out.println(idx);
+                    backtracking(aux);
                 }
             }
         }
-        if(sol != t.dim*t.dim +1){
-            sol--;
+        if (idx == t.dim * t.dim + 1) {
+            return true;
+        }
+        if (idx != t.dim * t.dim + 1) {
+            idx--;
             t.setM(0, c.getPos().getX(), c.getPos().getY());
         }
-    }
-    
-    public void kt(int n, int posx, int posy){
-        generarTauler(n);
-        situarCavall(posx, posy);
-        backtracking(c);
+        return false;
     }
 
-    public void printSol(){
+    public boolean kt(int n, int posx, int posy) {
+        generarTauler(n);
+        situarCavall(posx, posy);
+        return backtracking(c);
+    }
+
+    public void printSol() {
         for (int i = 0; i < t.dim; i++) {
             for (int j = 0; j < t.dim; j++) {
                 System.out.print(t.getM(j, i));
@@ -62,15 +65,16 @@ public class KnightsTour {
         }
     }
     
-
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         KnightsTour k = new KnightsTour();
-        k.kt(9, 0, 0);
-        k.printSol();
+        if (k.kt(7, 3, 0)) {
+            k.printSol();
+        } else {
+            System.out.println("No hi ha solució");
+        }
     }
 
 }

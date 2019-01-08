@@ -44,8 +44,7 @@ public class Tauler {
         }
     }
 
-    public boolean hasSol(Vector[] mov) {
-        boolean sol;
+    public boolean hasSol(Cavall c) {
         if (dim < 6) {
             return true;
         }
@@ -53,13 +52,13 @@ public class Tauler {
             for (int j = 0; j < dim; j++) {
                 if (m[j][i] == 0) {
                     Vector aux = new Vector(j, i);
-                    sol = false;
-                    for (int k = 0; k < mov.length; k++) {
-                        if (isValid(Vector.sumVector(aux, mov[k]))) {
-                            sol = true;
+                    for (int k = 0; k < Cavall.getMov().length; k++) {
+                        if (isValid(Vector.sumVector(aux, Cavall.getMov()[k]))||((c.getPos().getX() == j)&&c.getPos().getY() == i)) {
+                            break;
                         }
-                        if(sol){
-                            return true;
+                        if (k == Cavall.getMov().length - 1) {
+                           // System.out.println("a");
+                            return false;
                         }
                     }
                 }
