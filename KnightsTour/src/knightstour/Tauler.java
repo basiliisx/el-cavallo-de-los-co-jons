@@ -5,35 +5,44 @@
  */
 package knightstour;
 
+import java.awt.Color;
+
 /**
  *
  * @author USUARIO
  */
 public class Tauler {
 
-    int[][] m;
+    Casella[][] m;
     int dim;
 
     public Tauler(int n) {
+        boolean black = true;
         dim = n;
-        m = new int[n][n];
+        m = new Casella[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                m[j][i] = 0;
+                if (black) {
+                    m[j][i] = new Casella(Color.black);
+                    m[j][i].setCol(Color.white);
+                    black = false;
+                } else {
+                    m[j][i] = new Casella(Color.white);
+                    m[j][i].setCol(Color.black);                    
+                    black = true;
+                }
             }
+            if(dim%2 == 0)
+            black = !black;
         }
     }
 
     public int getM(int x, int y) {
-        return m[x][y];
-    }
-
-    public int[][] getM() {
-        return m;
+        return m[x][y].getValor();
     }
 
     public void setM(int val, int x, int y) {
-        m[x][y] = val;
+        m[x][y].setValor(val);
     }
 
     public boolean isValid(Vector v) {
@@ -44,20 +53,24 @@ public class Tauler {
         }
     }
 
+    public Casella[][] getM() {
+        return m;
+    }
+
     public boolean hasSol(Cavall c) {
         if (dim < 6) {
             return true;
         }
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
-                if (m[j][i] == 0) {
+                if (m[j][i].getValor() == 0) {
                     Vector aux = new Vector(j, i);
                     for (int k = 0; k < Cavall.getMov().length; k++) {
-                        if (isValid(Vector.sumVector(aux, Cavall.getMov()[k]))||((c.getPos().getX() == j)&&c.getPos().getY() == i)) {
+                        if (isValid(Vector.sumVector(aux, Cavall.getMov()[k])) || ((c.getPos().getX() == j) && c.getPos().getY() == i)) {
                             break;
                         }
                         if (k == Cavall.getMov().length - 1) {
-                           // System.out.println("a");
+                            // System.out.println("a");
                             return false;
                         }
                     }

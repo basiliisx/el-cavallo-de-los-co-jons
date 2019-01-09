@@ -5,12 +5,16 @@
  */
 package knightstour;
 
+import java.awt.GridLayout;
+import javax.swing.JFrame;
+
 /**
  *
  * @author USUARIO
  */
 public class KnightsTour {
-
+    
+    JFrame fr;
     Tauler t;
     Cavall c;
     int dim;
@@ -19,6 +23,18 @@ public class KnightsTour {
     public void generarTauler(int n) {
         t = new Tauler(n);
         t.dim = n;
+        fr = new JFrame("Knight Tour");
+        fr.setSize(80*n,80*n);
+        fr.setResizable(false);
+        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        GridLayout grid = new GridLayout(n, n);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                fr.add(t.getM()[j][i]);
+            }
+        }
+        fr.setLayout(grid);
+        fr.setVisible(true);
     }
 
     public void situarCavall(int x, int y) {
@@ -33,6 +49,7 @@ public class KnightsTour {
             if (t.isValid(Vector.sumVector(c.getPos(), mov))) {
                 aux.setPos(Vector.sumVector(c.getPos(), mov));
                 if (t.hasSol(aux)) {
+                    printSol();
                     t.setM(idx, aux.getPos().getX(), aux.getPos().getY());
                     //System.out.println(idx);
                     backtracking(aux);
@@ -58,8 +75,7 @@ public class KnightsTour {
     public void printSol() {
         for (int i = 0; i < t.dim; i++) {
             for (int j = 0; j < t.dim; j++) {
-                System.out.print(t.getM(j, i));
-                System.out.print(' ');
+                t.m[j][i].showValor();
             }
             System.out.println();
         }
@@ -70,7 +86,7 @@ public class KnightsTour {
      */
     public static void main(String[] args) {
         KnightsTour k = new KnightsTour();
-        if (k.kt(7, 3, 0)) {
+        if (k.kt(8, 3, 5)) {
             k.printSol();
         } else {
             System.out.println("No hi ha solució");
