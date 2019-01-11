@@ -5,28 +5,29 @@
  */
 package knightstour;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import javax.swing.JFrame;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
 
 /**
  *
  * @author USUARIO
  */
 public class KnightsTour {
-    
+
     JFrame fr;
     Tauler t;
     Cavall c;
     int dim;
     int idx = 1;
+    ImageIcon icon;
 
     public void generarTauler(int n) {
         t = new Tauler(n);
-        t.dim = n;
-        fr = new JFrame("Knight Tour");
-        fr.setSize(80*n,80*n);
-        fr.setResizable(false);
-        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fr.setSize(80 * n, 80 * n);
         GridLayout grid = new GridLayout(n, n);
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -49,7 +50,7 @@ public class KnightsTour {
             if (t.isValid(Vector.sumVector(c.getPos(), mov))) {
                 aux.setPos(Vector.sumVector(c.getPos(), mov));
                 if (t.hasSol(aux)) {
-                    printSol();
+//                     printSol();
                     t.setM(idx, aux.getPos().getX(), aux.getPos().getY());
                     //System.out.println(idx);
                     backtracking(aux);
@@ -66,10 +67,44 @@ public class KnightsTour {
         return false;
     }
 
-    public boolean kt(int n, int posx, int posy) {
-        generarTauler(n);
-        situarCavall(posx, posy);
-        return backtracking(c);
+    public void init(int x, int y) {
+        fr = new JFrame("Knight Tour");
+        icon = new ImageIcon("chess_icon.png");
+        fr.setIconImage(icon.getImage());
+        fr.setResizable(false);
+        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        definirTauler();
+        situarCavall(x, y);
+        if (backtracking(c)) {
+            printSol();
+        }
+    }
+
+    public void definirTauler() {
+        Object[] possibilities = {"2", "3", "4", "5", "6", "7",
+            "8", "9", "10"};
+        String s = (String) JOptionPane.showInputDialog(
+                fr,
+                "Seleccioni un tauler de NxN",
+                "Customized Dialog",
+                JOptionPane.PLAIN_MESSAGE,
+                icon,
+                possibilities,
+                "...");
+
+//If a string was returned, say so.
+        if ((s != null) && (s.length() > 0)) {
+            int n = Integer.parseInt(s);
+            generarTauler(n);
+        }
+
+    }
+
+    public void kt(int posx, int posy) {
+        init(posx,posy);
+        //generarTauler(n);
+        //situarCavall(posx, posy);
+        //return backtracking(c);
     }
 
     public void printSol() {
@@ -80,17 +115,12 @@ public class KnightsTour {
             System.out.println();
         }
     }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         KnightsTour k = new KnightsTour();
-        if (k.kt(8, 3, 5)) {
-            k.printSol();
-        } else {
-            System.out.println("No hi ha solució");
-        }
+        k.kt(7, 7);
     }
-
 }

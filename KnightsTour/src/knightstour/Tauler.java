@@ -6,6 +6,11 @@
 package knightstour;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JMenuItem;
 
 /**
  *
@@ -28,14 +33,14 @@ public class Tauler {
                     black = false;
                 } else {
                     m[j][i] = new Casella(Color.white);
-                    m[j][i].setCol(Color.black);                    
+                    m[j][i].setCol(Color.black);
                     black = true;
                 }
             }
             if(dim%2 == 0)
-            black = !black;
+                black = !black;
+            }
         }
-    }
 
     public int getM(int x, int y) {
         return m[x][y].getValor();
@@ -58,7 +63,7 @@ public class Tauler {
     }
 
     public boolean hasSol(Cavall c) {
-        if (dim < 6) {
+        if (dim < 0) {
             return true;
         }
         for (int i = 0; i < dim; i++) {
