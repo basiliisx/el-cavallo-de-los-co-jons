@@ -26,7 +26,7 @@ public class Cavall {
         mov[7] = new Vector(2, 1);
         pos = new Vector(x, y);
     }
-
+    
     public static Vector[] getMov() {
         return mov;
     }
