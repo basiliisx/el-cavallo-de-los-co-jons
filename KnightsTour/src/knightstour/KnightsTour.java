@@ -9,8 +9,11 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 /**
- *
- * @author USUARIO
+ * Programa que resol el problema de la ruta del cavall 
+ * amb un esquema de backtracking en un tauler de n*n
+ * on n varia desde 2 fins a 10
+ * 
+ * @author Jiménez Sánchez, Pablo
  */
 public class KnightsTour {
 
@@ -20,6 +23,10 @@ public class KnightsTour {
     private static int idx = 1;
     private ImageIcon icon;
 
+    /**
+     * Genera un tauler de dimensió n*n
+     * @param n longitud del tauler
+     */
     public void generarTauler(int n) {
         t = new Tauler(n);
         fr.setSize(80 * n, 80 * n);
@@ -33,15 +40,26 @@ public class KnightsTour {
         fr.setVisible(true);
     }
 
+    /**
+     * Situa el cavall i comença l'algorisme per trobar una solució si el tauler 
+     * no mostra cap solució, i si en té fa una neteja del tauler
+     *
+     * @param x posició inicial del cavall respecte a x
+     * @param y posició inicial del cavall respecte a y
+     */
     static public void situarCavall(int x, int y) {
-        c = new Cavall(x, y);
-        t.setM(idx, x, y);
         if (t.isClear()) {
+            c = new Cavall(x, y);
+            t.setM(idx, x, y);
+            t.getM()[x][y].setBg();
             t.setClear(false);
             if (backtracking(c)) {
                 printSol();
             } else {
                 System.out.println("No hay solución");
+                idx = 1;
+                t.clearTauler();
+                t.setClear(true);
             }
         } else {
             idx = 1;
@@ -50,6 +68,13 @@ public class KnightsTour {
         }
     }
 
+    /**
+     * Mètode recursiu utilitzat per trobar si un tauler té una solució 
+     * mitjançant un esquema de backtracking, probant tots el moviments que té
+     * un cavall
+     * @param c El cavall que s'utilitza per comprobar si el tauler té solució
+     * @return Booleà que indica si el tauler té o no solució
+     */
     public static boolean backtracking(Cavall c) {
         idx++;
         Cavall aux = new Cavall(c.getPos().getX(), c.getPos().getY());
@@ -64,7 +89,7 @@ public class KnightsTour {
                 }
             }
         }
-        if (idx == t.getMovs()+ 1) {
+        if (idx == t.getMovs() + 1) {
             return true;
         }
         if (idx != t.getMovs() + 1) {
@@ -74,6 +99,9 @@ public class KnightsTour {
         return false;
     }
 
+    /**
+     * Initcialització dels components gràfics d'aquest programa
+     */
     public void init() {
         fr = new JFrame("Knight Tour");
         icon = new ImageIcon("chess_icon.png");
@@ -84,6 +112,9 @@ public class KnightsTour {
 
     }
 
+    /**
+     *  Definició de la longitud d'un tauler n x n amb un JOptionPane
+     */
     public void definirTauler() {
         Object[] possibilities = {"2", "3", "4", "5", "6", "7",
             "8", "9", "10"};
@@ -95,8 +126,6 @@ public class KnightsTour {
                 icon,
                 possibilities,
                 "...");
-
-//If a string was returned, say so.
         if ((s != null) && (s.length() > 0)) {
             int n = Integer.parseInt(s);
             generarTauler(n);
@@ -104,11 +133,15 @@ public class KnightsTour {
 
     }
 
+    /**
+     * Imprimeix la solució per pantalla del tauler
+     */
     public static void printSol() {
         for (int i = 0; i < t.getDim(); i++) {
             for (int j = 0; j < t.getDim(); j++) {
-                if(t.getM()[j][i].getValor() != -1)
-                t.getM()[j][i].showValor();
+                if (t.getM()[j][i].getValor() != -1) {
+                    t.getM()[j][i].showValor();
+                }
             }
         }
     }

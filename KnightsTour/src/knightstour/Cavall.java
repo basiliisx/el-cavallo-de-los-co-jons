@@ -6,14 +6,20 @@
 package knightstour;
 
 /**
- *
- * @author USUARIO
+ * Classe que representa un cavall situat a un tauler
+ * @author Jiménez Sánchez, Pablo
  */
 public class Cavall {
 
     private static Vector[] mov;
     private Vector pos;
     
+    /**
+     * Constructor de la clase Cavall que initcialitza l'array de moviments i
+     * situa al cavall a una posició x,y
+     * @param x posició inicial del cavall respecte a x
+     * @param y posició inicial del cavall respecte a y
+     */
     public Cavall(int x, int y) {
         mov = new Vector[8];
         mov[0] = new Vector(-1, -2);
@@ -27,18 +33,26 @@ public class Cavall {
         pos = new Vector(x, y);
     }
     
+    /**
+     * Getter del vector de moviments del cavall
+     * @return Vector[] mov
+     */
     public static Vector[] getMov() {
         return mov;
     }
 
-    public static void setMov(Vector[] mov) {
-        Cavall.mov = mov;
-    }
-
+    /**
+     * Getter de la posició del cavall
+     * @return Vector pos
+     */
     public Vector getPos() {
         return pos;
     }
 
+    /**
+     * Setter de la posició del cavall
+     * @param pos la nova posició del cavall
+     */
     public void setPos(Vector pos) {
         this.pos = pos;
     }
