@@ -20,7 +20,7 @@ public class Casella extends JButton {
     Color color;
     
     /**
-     * Constructo de la clase casella que a més initcialitza el listener
+     * Constructo de la clase casella que a més initzialitza el listener
      * per rebre l'input del mouse
      * @param color color de la casella
      * @param x posició de la casella respecte a x

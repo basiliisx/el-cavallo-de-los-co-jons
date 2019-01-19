@@ -15,7 +15,7 @@ public class Cavall {
     private Vector pos;
     
     /**
-     * Constructor de la clase Cavall que initcialitza l'array de moviments i
+     * Constructor de la clase Cavall que initzialitza l'array de moviments i
      * situa al cavall a una posició x,y
      * @param x posició inicial del cavall respecte a x
      * @param y posició inicial del cavall respecte a y

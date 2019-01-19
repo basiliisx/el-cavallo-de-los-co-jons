@@ -100,7 +100,7 @@ public class KnightsTour {
     }
 
     /**
-     * Initcialització dels components gràfics d'aquest programa
+     * Initzialització dels components gràfics d'aquest programa
      */
     public void init() {
         fr = new JFrame("Knight Tour");
